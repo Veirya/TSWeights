@@ -1,5 +1,5 @@
 # Structs for storing hero data
-class Hero():
+class Hero:
     PROG_VALUES = [
         "Done",
         "Good Enough",
@@ -31,12 +31,15 @@ class Hero():
         self.role = ""
         self.coll = Collection()
         self.notes = ""
+    # end def
 
     def to_row(self):
         return [self.name] + self.weights + [self.total_weight, self.hero_class, self.role, str(self.coll), self.notes]
+    # end def
+# end class
 
-class Collection():
-    TYPES = [
+class Collection:
+    TYPES = sorted([
         "Zolrath",
         "Saurus",
         "Orthos",
@@ -52,12 +55,15 @@ class Collection():
         "Thoran",
         "Zaphrael",
         "Raine",
-    ].sorted()
+    ])
     STARS = ["1*", "2*", "3*"]
 
     def __init(self):
         self.stars = 0
         self.type = ""
+    # end def
 
     def __str__(self):
         return f"{self.stars} {self.type}"
+    # end def
+# end class
