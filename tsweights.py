@@ -5,7 +5,7 @@ import os
 import tkinter as tk
 from Hero import Hero, Collection
 from HeroTable import HeroTable, load_table
-from HomeFrame import HomeFrame
+from frames.HomeFrame import HomeFrame
 
 class TSWeights:
     def __init__(self, master, save_file):
@@ -27,7 +27,7 @@ class TSWeights:
             self.heroes = dict()
 
         # Initialize the home TK frame in the master
-        # The App could probably be a tk Frame itself
+        # The App could probably inherit from tk.Frame itself
         self.homeFrame = HomeFrame(self.master)
         self.homeFrame.pack()
     # end def
