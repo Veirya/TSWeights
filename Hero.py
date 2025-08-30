@@ -1,5 +1,11 @@
 # Structs for storing hero data
+import json
+
 class Hero:
+    with open("heroNames.json", 'r') as f:
+        HERO_NAMES = set([name.lower() for name in json.load(f)["Names"]])
+    # end with
+
     PROG_VALUES = [
         "",
         "Done",
@@ -28,15 +34,16 @@ class Hero:
     def __init__(self, name):
         self.name = name
         self.weights = [0]*5
-        self.total_weight = 0
-        self.hero_class = ""
+        self.totalWeight = 0
+        self.heroClass = ""
         self.role = ""
+        self.prog = ""
         self.coll = Collection()
         self.notes = ""
     # end def
 
     def to_row(self):
-        return [self.name] + self.weights + [self.total_weight, self.hero_class, self.role, str(self.coll), self.notes]
+        return [self.name] + self.weights + [self.totalWeight, self.heroClass, self.role, str(self.coll), self.notes]
     # end def
 # end class
 
@@ -59,10 +66,10 @@ class Collection:
         "Zaphrael",
         "Raine",
     ])
-    STARS = ["", "1*", "2*", "3*"]
+    STAR_VALUES = ["", "1*", "2*", "3*"]
 
     def __init(self):
-        self.stars = 0
+        self.stars = ""
         self.type = ""
     # end def
 
