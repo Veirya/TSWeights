@@ -1,6 +1,7 @@
 # Structs for storing hero data
 class Hero:
     PROG_VALUES = [
+        "",
         "Done",
         "Good Enough",
         "In Progress",
@@ -8,6 +9,7 @@ class Hero:
         "Nowhere Near",
     ]
     CLASSES = [
+        "",
         "Support",
         "Mage",
         "Warrior",
@@ -40,6 +42,7 @@ class Hero:
 
 class Collection:
     TYPES = sorted([
+        "",
         "Zolrath",
         "Saurus",
         "Orthos",
@@ -56,7 +59,7 @@ class Collection:
         "Zaphrael",
         "Raine",
     ])
-    STARS = ["1*", "2*", "3*"]
+    STARS = ["", "1*", "2*", "3*"]
 
     def __init(self):
         self.stars = 0
