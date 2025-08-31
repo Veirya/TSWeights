@@ -44,6 +44,13 @@ class HeroDataFrame(tk.Frame):
         self.org_suppframe()
         self.notesFieldLbl.grid(row=4, column=0, padx=2, pady=2, sticky='nes')
         self.notesField.grid(row=4, column=1, columnspan=2, padx=2, pady=2, sticky='news')
+        
+        # Setup the tab order. I hate how this works, but at least now I understand it
+        order = (
+            self.nameField, self.weightFrame, self.suppFrame, self.notesField,
+            self.collFrame, self.collStarField, self.collTypeField
+        )
+        for wid in order: wid.tkraise()
     # end def
 
     # Initialize all of the labels for the weight fields
@@ -139,7 +146,7 @@ class HeroDataFrame(tk.Frame):
         else: self.nameLbl.configure(fg='black') # In case it was turned red before
         # end if
 
-        hero = Hero(name)
+        hero = Hero(name.title())
 
         # Check that at least one TS Weight was filled in with a non-zero. Blanks treated as 0.
         weights = []

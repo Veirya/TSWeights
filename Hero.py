@@ -43,7 +43,7 @@ class Hero:
     # end def
 
     def to_row(self):
-        return [self.name] + self.weights + [self.totalWeight, self.heroClass, self.role, str(self.coll), self.notes]
+        return self.weights + [self.totalWeight, self.heroClass, self.role, self.prog, str(self.coll), self.notes]
     # end def
 # end class
 

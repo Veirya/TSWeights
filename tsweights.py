@@ -10,21 +10,21 @@ from frames.HomeFrame import HomeFrame
 class TSWeights:
     def __init__(self, master, save_file):
         self.master = master
+        self.master._tsw_app = self  # Useful reference to have without making this a frame
         self.save_file = save_file
 
         # Check if a saved table exists, and if so, import it and it's heroes
         if os.path.exists(save_file):
-            raise NotImplementedError
             # This will be the basic flow
             print("Saved Table detected. Importing ...", end=" ")
             self.table = load_table(save_file)
-            self.heroes = self._import_heroes(table)
+            self.heroes = self._import_heroes(self.table)
             print("Success")
         # Otherwise, initialize a new table and hero dictionary
         else:
             print(f"Table \"{save_file}\" not found. Starting from scratch.")
             self.table = HeroTable()
-            self.heroes = dict()
+            self.heroes = dict() # Thinking this might be pointless, the table is the same thing basically
 
         # Initialize the home TK frame in the master
         # The App could probably inherit from tk.Frame itself
@@ -33,9 +33,28 @@ class TSWeights:
     # end def
 
     # Take a HeroTable and generate a dict of Heroes based on the input
-    def _import_heroes(table):
-        # TODO: Implement
-        return dict()
+    def _import_heroes(self, table: HeroTable):
+        heroDict = dict()
+        for name in table.index:
+            newHero = Hero(name)
+            data = table.loc[name]
+            newHero.weights = [data["Ice"], data["Fire"], data["Forest"], data["Fog"], data["Pure"]]
+            newHero.totalWeight = data["Total"]
+            newHero.heroClass = data["Class"]
+            newHero.role = data["Role"]
+            newHero.prog = data["Prog"]
+            print(data["Coll"])
+            newHero.coll.stars, newHero.coll.type = data["Coll"].split(" ")
+            print(f"Pulled: {table.loc[name]}")
+            print(f"Got: {newHero.to_row()}")
+            heroDict[name] = newHero
+        return heroDict
+    # end def
+
+    def save_hero(self, hero: Hero):
+        self.heroes[hero.name] = hero
+        self.table.loc[hero.name] = hero.to_row()
+        self.table.to_csv(self.save_file)
     # end def
 # end class
 

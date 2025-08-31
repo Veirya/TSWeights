@@ -1,7 +1,6 @@
 # Class for the Window where Heroes will be entered
 
 import tkinter as tk
-from tkinter.font import Font as tkFont
 from frames.HeroDataFrame import HeroDataFrame
 from frames.CSDFrame import CSDFrame
 
@@ -22,6 +21,10 @@ class HeroWindow(tk.Toplevel):
         self.enterHeroFrame.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
         self.line.grid(row=1, column=0, padx=0, pady=0, sticky='news')
         self.csdFrame.grid(row=2, column=0, padx=5, pady=5, sticky="se")
+
+        # Setup the tab order
+        self.enterHeroFrame.lift()
+        self.csdFrame.lift()
     # end def
 
     # Have the HeroDataFrame clear the fields to the defaults.
@@ -33,8 +36,9 @@ class HeroWindow(tk.Toplevel):
     def save_data(self):
         heroData = self.enterHeroFrame.fetch_data()
         if not heroData: return
-        # TODO: walk up to the App and call it's save_hero function
-        print(heroData.to_row())
+        # To avoid a possible circular import, assume that the master is a HomeFrame
+        # whose master is the app
+        self.master.master._tsw_app.save_hero(heroData)
         self.destroy()
     # end def
 # end class
