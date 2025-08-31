@@ -25,6 +25,7 @@ class TSWeights:
             print(f"Table \"{save_file}\" not found. Starting from scratch.")
             self.table = HeroTable()
             self.heroes = dict() # Thinking this might be pointless, the table is the same thing basically
+            # The Hero class, however, is useful as an intermediary class and for its constants
 
         # Initialize the home TK frame in the master
         # The App could probably inherit from tk.Frame itself
@@ -43,10 +44,7 @@ class TSWeights:
             newHero.heroClass = data["Class"]
             newHero.role = data["Role"]
             newHero.prog = data["Prog"]
-            print(data["Coll"])
             newHero.coll.stars, newHero.coll.type = data["Coll"].split(" ")
-            print(f"Pulled: {table.loc[name]}")
-            print(f"Got: {newHero.to_row()}")
             heroDict[name] = newHero
         return heroDict
     # end def

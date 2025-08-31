@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter.font import Font as tkFont
 from windows.HeroWindow import HeroWindow
+from windows.TSWindow import TSWindow
 
 class HomeFrame(tk.Frame):
     def __init__(self, master):
@@ -39,7 +40,7 @@ class HomeFrame(tk.Frame):
 
     # Open the modal Enter TS Comp window
     def _open_enterts(self):
-        pass
+        TSWindow(self)
     # end def
 
     # Open the modal Edit Hero window
