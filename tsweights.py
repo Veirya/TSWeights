@@ -54,6 +54,10 @@ class TSWeights:
         self.table.loc[hero.name] = hero.to_row()
         self.table.to_csv(self.save_file)
     # end def
+
+    def save_ts(self, scores: dict):
+        print(scores)
+    # end def
 # end class
 
 if __name__ == "__main__":

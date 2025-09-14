@@ -4,7 +4,6 @@ import tkinter as tk
 from tkinter.font import Font as tkFont
 
 class TeamHeroFrame(tk.Frame):
-
     def __init__(self, master, number: int):
         self.bg = master.cget('bg')
         super().__init__(master, bd=1, relief='solid', bg=self.bg)
@@ -33,5 +32,12 @@ class TeamHeroFrame(tk.Frame):
         self.sub2Field.grid(row=1, column=3, padx=2, pady=2, sticky='news')
         self.slash2Lbl.grid(row=1, column=4, padx=2, pady=2, sticky='news')
         self.sub3Field.grid(row=1, column=5, padx=2, pady=2, sticky='news')
+    # end def
+
+    def clear_data(self):
+        self.nameField.delete(0, 'end')
+        self.sub1Field.delete(0, 'end')
+        self.sub2Field.delete(0, 'end')
+        self.sub3Field.delete(0, 'end')
     # end def
 # end class

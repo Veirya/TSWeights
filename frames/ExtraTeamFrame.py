@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter.font import Font as tkFont
+from Hero import Hero
 
 class ExtraTeamFrame(tk.Frame):
     def __init__(self, master, number: int):
@@ -34,5 +35,62 @@ class ExtraTeamFrame(tk.Frame):
         self.sub1Field.grid(row=1, column=0, padx=2, pady=2, sticky='news')
         self.sub2Field.grid(row=2, column=0, padx=2, pady=2, sticky='news')
         self.sub3Field.grid(row=3, column=0, padx=2, pady=2, sticky='news')
+    # end def
+
+    def clear_data(self):
+        self.hero1Field.delete(0, 'end')
+        self.hero2Field.delete(0, 'end')
+        self.hero3Field.delete(0, 'end')
+        self.hero4Field.delete(0, 'end')
+        self.hero5Field.delete(0, 'end')
+        self.sub1Field.delete(0, 'end')
+        self.sub2Field.delete(0, 'end')
+        self.sub3Field.delete(0, 'end')
+    # end def
+
+    # Go through the main comp and add the heroes to the given set. Return an empty
+    # string if no issues, otherwise return an error describing the problem should
+    # there be one, similar to the parent's function.
+    def fetch_heroes(self, heroSet: set):
+        checkedHeroes = set()
+        for hero in [self.hero1Field, self.hero2Field, self.hero3Field, self.hero4Field, self.hero5Field]:
+            name = hero.get().title()
+            if name.lower() not in Hero.HERO_NAMES:
+                self.idLbl.configure(fg='red')
+                return f"Hero '{name}' not recognized. Please check the spelling."
+            elif name.lower() in checkedHeroes:
+                self.idLbl.configure(fg='red')
+                return f"Hero '{name}' is listed more than once in a comp.\nComps need unique heroes."
+            else:
+                self.idLbl.configure(fg='black')
+                checkedHeroes.add(name)
+                heroSet.add(name)
+            #end if
+        # end for
+        return ""
+    # end def
+
+    # Similar to fetch_heroes, but grabs the subs instead. Blanks are now acceptable,
+    # but unlike the main comp, uniqueness is still enforced.
+    def fetch_subs(self, heroSet: set):
+        checkedHeroes = set()
+        for sub in [self.sub1Field, self.sub2Field, self.sub3Field]:
+            name = sub.get().title()
+            if name.lower() not in Hero.HERO_NAMES:
+                self.idLbl.configure(fg='red')
+                self.subLbl.configure(fg='red')
+                return f"Hero '{name}' not recognized. Please check the spelling."
+            elif name.lower() in checkedHeroes:
+                self.idLbl.configure(fg='red')
+                self.subLbl.configure(fg='red')
+                return f"Hero '{name}' is listed more than once as a sub\nfor a single hero."
+            else:
+                self.idLbl.configure(fg='black')
+                self.subLbl.configure(fg='black')
+                checkedHeroes.add(name)
+                heroSet.add(name)
+            #end if
+        # end for
+        return ""
     # end def
 # end class
