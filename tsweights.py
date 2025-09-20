@@ -3,7 +3,7 @@
 
 import os
 import tkinter as tk
-from Hero import Hero, Collection
+from Hero import Hero
 from HeroTable import HeroTable, load_table
 from frames.HomeFrame import HomeFrame
 
@@ -57,6 +57,12 @@ class TSWeights:
 
     def save_ts(self, scores: dict):
         print(scores)
+        # Get useful sets
+        scoreNames = set(scores.keys)
+        tableIndices = set(self.table.index.values)
+        newHeroes = scoreNames - tableIndices
+        modHeroes = scoreNames & tableIndices
+        zeroHeroes = tableIndices - scoreNames
     # end def
 # end class
 
