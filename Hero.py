@@ -62,7 +62,7 @@ class Collection:
         "Tasi",
         "Izold",
         "Anoki",
-        "Thoran",
+        "Thane",
         "Zaphrael",
         "Raine",
     ])

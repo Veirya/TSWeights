@@ -6,6 +6,7 @@ import tkinter as tk
 from Hero import Hero
 from HeroTable import HeroTable, load_table
 from frames.HomeFrame import HomeFrame
+from windows.HeroWindow import HeroWindow
 
 class TSWeights:
     def __init__(self, master, save_file):
@@ -55,14 +56,37 @@ class TSWeights:
         self.table.to_csv(self.save_file)
     # end def
 
-    def save_ts(self, scores: dict):
+    def save_ts(self, scores):
         print(scores)
         # Get useful sets
-        scoreNames = set(scores.keys)
+        scoreNames = scores.keys()
         tableIndices = set(self.table.index.values)
         newHeroes = scoreNames - tableIndices
         modHeroes = scoreNames & tableIndices
         zeroHeroes = tableIndices - scoreNames
+
+        # First, fill in the data for any new heroes
+        for name in newHeroes: 
+            if name == "Debuff": continue # Not a hero
+            newHero = Hero(name)
+            nhWindow = HeroWindow(self.homeFrame, newHero)
+            nhWindow.wait_window() # Wait for the data to be entered
+            newHero.weights[Hero.WEIGHT_MAP[scores["Debuff"]]] = scores[name]
+            self.heroes[newHero.name] = newHero
+            self.table.loc[newHero.name] = newHero.to_row()
+        
+        # Next, apply the score to pre-existing hero entries
+        for name in modHeroes:
+            self.heroes[name].weights[Hero.WEIGHT_MAP[scores["Debuff"]]] = scores[name]
+            self.table.loc[:, (name, scores["Debuff"])] = scores[name]
+
+        # Then, zero out the scores for heroes not in the score list but are in the tables.
+        for name in zeroHeroes:
+            self.heroes[name].weights[Hero.WEIGHT_MAP[scores["Debuff"]]] = 0
+            self.table.loc[:, (name, scores["Debuff"])] = 0
+
+        # Finally, save the table to a csv after the writes are all done.
+        self.table.to_csv(self.save_file)
     # end def
 # end class
 
