@@ -72,18 +72,23 @@ class TSWeights:
             nhWindow = HeroWindow(self.homeFrame, newHero)
             nhWindow.wait_window() # Wait for the data to be entered
             newHero.weights[Hero.WEIGHT_MAP[scores["Debuff"]]] = scores[name]
+            newHero.totalWeight = sum(newHero.weights)
             self.heroes[newHero.name] = newHero
             self.table.loc[newHero.name] = newHero.to_row()
         
         # Next, apply the score to pre-existing hero entries
         for name in modHeroes:
             self.heroes[name].weights[Hero.WEIGHT_MAP[scores["Debuff"]]] = scores[name]
-            self.table.loc[:, (name, scores["Debuff"])] = scores[name]
+            self.heroes[name].update_total()
+            self.table.at[name, scores["Debuff"]] = scores[name]
+            self.table.at[name, "Total"] = self.heroes[name].totalWeight
 
         # Then, zero out the scores for heroes not in the score list but are in the tables.
         for name in zeroHeroes:
             self.heroes[name].weights[Hero.WEIGHT_MAP[scores["Debuff"]]] = 0
-            self.table.loc[:, (name, scores["Debuff"])] = 0
+            self.heroes[name].update_total()
+            self.table.at[name, scores["Debuff"]] = 0
+            self.table.at[name, "Total"] = self.heroes[name].totalWeight
 
         # Finally, save the table to a csv after the writes are all done.
         self.table.to_csv(self.save_file)

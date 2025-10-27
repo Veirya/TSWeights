@@ -45,6 +45,11 @@ class Hero:
     def to_row(self):
         return self.weights + [self.totalWeight, self.heroClass, self.role, self.prog, str(self.coll), self.notes]
     # end def
+
+    # For convenience
+    def update_total(self):
+        self.totalWeight = sum(self.weights)
+    # end def
 # end class
 
 class Collection:
